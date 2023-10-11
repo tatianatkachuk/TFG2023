@@ -34,7 +34,7 @@ DENSE4 = [3, 3, 3, 3]
 # PREDICTION PARAMS
 HOURS = 24
 PRED = 2
-PREDFORHOURS = 2 # lo que se representa en el mapa
+PREDFORHOURS = 4 # lo que se representa en el mapa
 
 
 def preProcessingData(df, selected_to_analyze, fulldf, alt, airport):
@@ -169,8 +169,8 @@ def main(df_raw, alt, airport, lstmval, d1, d2, d3, d4, col, resultQ, hours):
     lossPlot = False
 
     # Curva de errores
-    # errorPlot = True
-    errorPlot = False
+    errorPlot = True
+    # errorPlot = False
 
     # Validación del modelo
     # Evaluación de la precisión y pérdidas de validación
@@ -191,8 +191,8 @@ def main(df_raw, alt, airport, lstmval, d1, d2, d3, d4, col, resultQ, hours):
 
     # DEEP LEARNING
     # Elección, definición y compilación del modelo
-    tipo = 'simple'
-    # tipo = 'lstm'
+    # tipo = 'simple'
+    tipo = 'lstm'
     # tipo = 'gru'
     model = defineModel(tipo, lstmval, d1, d2, d3, d4)
     model.compile(loss=LOSS, optimizer=OPT, metrics=METR)
@@ -243,14 +243,9 @@ frontend = True
 
 if frontend: 
     def deepL():
-        # Elección del (de los) aeropuerto(s) a analizar
-        all_airports = True
-        # all_airports = False
 
-        if all_airports: airports = ['Barcelona', 'Reus', 'Santiago', 'Granada']
-        else: # Escribir nommbre o nombres
-            airports = ['Reus']
-
+        airports = ['Barcelona', 'Reus', 'Santiago', 'Granada']
+        
         # Inicializar cola de resultados
         resultQ = Queue()
         
@@ -291,12 +286,12 @@ else:
     if __name__ == '__main__':
 
         # Elección del (de los) aeropuerto(s) a analizar
-        all_airports = True
-        # all_airports = False
+        # all_airports = True
+        all_airports = False
 
         if all_airports: airports = ['Barcelona', 'Reus', 'Santiago', 'Granada']
         else: # Escribir nommbre o nombres
-            airports = ['Reus']
+            airports = ['Granada']
 
         # Inicializar cola de resultados
         resultQ = Queue()
@@ -311,7 +306,7 @@ else:
         for i in range(len(alt_values)):
             print(i)
             thread = threading.Thread(target=main, args=(
-                df_raw, alt_values[i], airports[i], LSTMVAL[i], DENSE1[i], DENSE2[i], DENSE3[i], DENSE4[i], 'b', resultQ,))
+                df_raw, alt_values[i], airports[i], LSTMVAL[i], DENSE1[i], DENSE2[i], DENSE3[i], DENSE4[i], 'b', resultQ, PREDFORHOURS,))
             threads.append(thread)
 
 
