@@ -1,0 +1,8 @@
+__pycache__/
+archivo.csv
+deepLearning_v2.py
+deepLearning.py
+templates/show_loading.html
+templates/index.html
+deepMeteorology/__pycache__
+deepMeteorology/migrations

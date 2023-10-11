@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Map</title>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="tit"></h1>
+    
+    <div id="map"></div>
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGt0YXRpYW5hIiwiYSI6ImNsaHF6MDY2NjAybnkzZXFtNGF2azJ3cGsifQ.hCWRZrsw2ItOLR2f98VP_A';
+
+        var airports = {{ airports| safe }};
+
+        function displayHours() {
+            var hours = {{ hours| safe }};
+            document.getElementById("tit").innerHTML = "Predicción para las próximas " + hours + " horas";
+            }
+        displayHours();
+        
+
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/light-v11',
+            center: [-3.73109917639797, 40.42916367997709],
+            zoom: 4.7
+        });
+
+        var allMarkers = [];
+
+        for (var key in airports) {
+            if (airports.hasOwnProperty(key)) {
+                var marker = airports[key];
+                m = new mapboxgl.Marker({
+                    color: '#006400',
+                })
+                    .setLngLat([marker.longitude, marker.latitude])
+                    .setPopup(new mapboxgl.Popup().setHTML('<b>' + marker.name + '<br>Visibilidad:' + marker.vis + ' km<br>Precipitación:' + marker.prec + ' l/m2<br>Dirección del viento:' + marker.dv + ' º'))
+                    .addTo(map);
+            }
+            allMarkers.push(m);
+
+        }
+
+
+    </script>
+</body>
+
+</html>
