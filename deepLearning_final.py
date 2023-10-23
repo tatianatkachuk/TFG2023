@@ -169,8 +169,8 @@ def main(df_raw, alt, airport, lstmval, d1, d2, d3, d4, col, resultQ, hours):
     lossPlot = False
 
     # Curva de errores
-    errorPlot = True
-    # errorPlot = False
+    # errorPlot = True
+    errorPlot = False
 
     # Validación del modelo
     # Evaluación de la precisión y pérdidas de validación
@@ -202,7 +202,9 @@ def main(df_raw, alt, airport, lstmval, d1, d2, d3, d4, col, resultQ, hours):
 
     # HEATMAP correlación de parámetros
     if heatmap: 
-        sns.heatmap(df_processed.corr(), annot=True)
+        df_proc = df_processed.drop(df_processed.columns[0], axis=1)
+        print(df_proc)
+        sns.heatmap(df_proc.corr(), annot=True)
         plt.show()
         # print(df_processed.corr())
 
@@ -291,7 +293,7 @@ else:
 
         if all_airports: airports = ['Barcelona', 'Reus', 'Santiago', 'Granada']
         else: # Escribir nommbre o nombres
-            airports = ['Granada']
+            airports = ['Santiago']
 
         # Inicializar cola de resultados
         resultQ = Queue()
